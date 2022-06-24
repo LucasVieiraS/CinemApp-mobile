@@ -7,14 +7,32 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-searchbar placeholder="Buscar"></ion-searchbar>
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-card>
-          <img src="https://www.themoviedb.org/t/p/w94_and_h141_bestv2/dyhaB19AICF7TO7CK2aD6KfymnQ.jpg">
-          <h1>Shrek 2</h1>
-          <h2>Oi</h2>
-        </ion-card>
+        <ion-list>
+          <ion-item-sliding>
+            <ion-item-options side="end">
+              <ion-item-option color="warning" expandable>
+                FAVORITAR
+              </ion-item-option>
+            </ion-item-options>
+            <ion-item lines="full">
+              <ion-thumbnail slot="start">
+                <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6JjfSchsU6daXk2AKX8EEBjO3Fm.jpg">
+              </ion-thumbnail>
+              <ion-label class="ion-text-wrap">
+                <h1>Morbius (2022)</h1>
+                <p>31/03/2022 (BR)</p>
+                <p>Ação, Ficção científica, Fantasia</p>
+              </ion-label>
+              <ion-chip color="success" outline="true">
+                <div role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="--value:35"></div>
+              </ion-chip>
+            </ion-item>
+          </ion-item-sliding>
+        </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>

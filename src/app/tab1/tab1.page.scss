@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+@keyframes growProgressBar {
+  0%, 33% { --pgPercentage: 0; }
+  100% { --pgPercentage: var(--value); }
+}
+
+ion-item-options {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+ion-item {
+
+  --padding-start: 10px;
+  --inner-padding-end: 10px;
+
+  ion-thumbnail {
+    height: 100%;
+    img {
+      border-radius: 3px;
+    }
+  }
+
+  h1 {
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+
+  p {
+    font-size: .6rem;
+  }
+
+  p + p {
+    color: gray;
+  }
+
+  ion-chip {
+    padding-inline: 3px;
+    width: 4rem;
+    height: 4rem;
+    font-weight: bold;
+    border-radius: 50%;
+    ion-label {
+      text-align: center;
+    }
+  }
+
+}
+
+div[role="progressbar"] {
+  --size: 3.5rem;
+  --fg: rgb(78, 252, 55);
+  --bg: rgb(38, 128, 26);
+  --pgPercentage: var(--value);
+  animation: growProgressBar 3s 1 forwards;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(closest-side, rgb(36, 36, 36) 80%, transparent 0 99.9%, rgb(0, 0, 0) 0),
+    conic-gradient(var(--fg) calc(var(--pgPercentage) * 1%), var(--bg) 0);
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: calc(var(--size) / 3.5);
+  color: var(--fg);
+}
+
+div[role="progressbar"]::before {
+  counter-reset: percentage var(--value);
+  content: counter(percentage) '%';
+}
+
+@property --pgPercentage {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
