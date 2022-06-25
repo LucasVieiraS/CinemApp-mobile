@@ -1,0 +1,52 @@
+ion-slide {
+  ion-card {
+    width: 90%;
+    div {
+      margin-top: 15px;
+      --padding-start: 10px;
+      --inner-padding-end: 10px;
+
+      img {
+        height: 100%;
+        border-radius: 3px;
+      }
+
+      h1 {
+        font-weight: bold;
+        font-size: 1.3rem;
+      }
+
+      p {
+        font-size: .9rem;
+      }
+
+      p + p {
+        color: gray;
+      }
+    }
+  }
+}
+
+ion-label {
+  div {
+    width: 80%;
+    span {
+      color: gray;
+      font-size: .7rem;
+      margin-right: 3px;
+    }
+  }
+}
+
+ion-card {
+  ion-label {
+    h1 {
+      font-family: 'Ubuntu';
+    }
+  }
+  ion-item {
+    ion-label {
+      font-family: 'Oswald';
+    }
+  }
+}

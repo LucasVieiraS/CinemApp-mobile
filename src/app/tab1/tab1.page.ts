@@ -28,8 +28,8 @@ export class Tab1Page {
     public route: Router
   ) { }
 
-  showMovie(filme) {
-    this.dataService.setDados('filme', filme);
+  showMovie(movie: MovieAPI) {
+    this.dataService.setDados('movie', movie);
     this.route.navigateByUrl('/movie-data');
   }
 

@@ -13,7 +13,7 @@
           <ion-icon name="star"></ion-icon>
         </ion-item-option>
       </ion-item-options>
-      <ion-item lines="full">
+      <ion-item lines="full" (click)="showMovie(item)">
         <ion-thumbnail slot="start">
           <img [src]="item.imagem"/>
         </ion-thumbnail>

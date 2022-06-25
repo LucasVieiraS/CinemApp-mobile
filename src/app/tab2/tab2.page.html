@@ -7,23 +7,22 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-item color="dark">
+      <ion-icon name="search" slot="start" color="warning"></ion-icon>
+      <ion-label color="warning">ANIMAÇÃO</ion-label>
+    </ion-item>
+  </ion-card>
   <ion-slides>
-    <ion-slide>
-      <div class="slide">
-        <img src="https://www.themoviedb.org/t/p/w220_and_h330_face/4j0PNHkMr5ax3IA8tjtxcmPU3QT.jpg"/>
-        <h2>Tchau</h2>
-        <p>
-         Oi
-        </p>
-      </div>
+    <ion-slide *ngFor="let item of newMovies">
+      <ion-card>
+        <div class="slide">
+          <img [src]="item.imagem"/>
+          <h1>{{item.nome}}</h1>
+          <p>{{item.lancamento}} - {{item.duracao}}</p>
+        </div>
+      </ion-card>
     </ion-slide>
 
-    <ion-slide>
-      <img src="https://www.themoviedb.org/t/p/w220_and_h330_face/4j0PNHkMr5ax3IA8tjtxcmPU3QT.jpg" />
-      <h2>lorem ipsum</h2>
-      <p>
-        oi141251254
-      </p>
-    </ion-slide>
   </ion-slides>
 </ion-content>
