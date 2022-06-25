@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
+import { DataService } from '../services/data.service';
+import { Router } from '@angular/router';
+import { MovieAPI } from '../models/MovieAPI.model';
 
 @Component({
   selector: 'app-tab1',
@@ -8,18 +12,28 @@ import { AlertController } from '@ionic/angular';
 })
 export class Tab1Page {
 
-  movieData = [
+  movieData: MovieAPI[] = [
     {
       nome: 'Encanto',
       imagem: 'https://www.themoviedb.org/t/p/w220_and_h330_face/4j0PNHkMr5ax3IA8tjtxcmPU3QT.jpg',
-      nota: 77,
+      classificacao: 77,
       categorias: ['Animação', 'Comédia', 'Família', 'Fantasia'],
-    },
+      lancamento: '31/03/2022 (BR)',
+      duracao: '2:23'
+    }
   ];
 
-  constructor(public alertController: AlertController) {}
+  constructor(
+    public alertController: AlertController, public toastController: ToastController, public dataService: DataService,
+    public route: Router
+  ) { }
 
-  getCategoriaString(categorias) {
+  showMovie(filme) {
+    this.dataService.setDados('filme', filme);
+    this.route.navigateByUrl('/movie-data');
+  }
+
+  convertCategoriaString(categorias) {
     let convertedString = '';
     categorias.forEach(element => {
       convertedString += element + ', ';
@@ -27,7 +41,7 @@ export class Tab1Page {
     return convertedString.substring(0, convertedString.length - 2);
   }
 
-  async addToFavorite(movieName) {
+  async sendAlert(movieName) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       message: `Deseja favoritar <strong>${movieName}</strong>?`,
@@ -38,19 +52,33 @@ export class Tab1Page {
           cssClass: 'secondary',
           id: 'cancel-button',
           handler: (blah) => {
-            console.log('Filme não favoritado');
+            this.showLowerNotification('Filme removido dos favoritos.');
           },
         },
         {
           text: 'Sim',
           id: 'confirm-button',
           handler: () => {
-            console.log('Filme favoritado');
+            this.showLowerNotification('Filme adicionado aos favoritos.');
           },
         },
       ],
     });
 
     await alert.present();
+  }
+
+  async showLowerNotification(sentMessage) {
+    const toast = await this.toastController.create({
+      icon: 'star',
+      message: sentMessage,
+      position: 'top',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async requestFavorite(movieName) {
+    this.sendAlert(movieName);
   }
 }

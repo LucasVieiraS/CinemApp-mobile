@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+ion-label {
+  div {
+    width: 80%;
+    span {
+      color: gray;
+      font-size: .7rem;
+      margin-right: 3px;
+    }
+  }
+}
+
+ion-card {
+  ion-label {
+    h1 {
+      font-family: 'Ubuntu';
+    }
+  }
+  ion-item {
+    ion-label {
+      font-family: 'Oswald';
+    }
+  }
+}
+
+ion-item {
+
+  --padding-start: 10px;
+  --inner-padding-end: 10px;
+
+  ion-thumbnail {
+    height: 100%;
+    img {
+      border-radius: 3px;
+    }
+  }
+
+  h1 {
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+
+  p {
+    font-size: .6rem;
+  }
+
+  p + p {
+    color: gray;
+  }
+
+  ion-chip {
+    padding-inline: 3px;
+    width: 3.5rem;
+    height: 3.5rem;
+    font-weight: bold;
+    border-radius: 50%;
+    ion-label {
+      text-align: center;
+    }
+  }
+
+}

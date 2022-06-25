@@ -9,7 +9,7 @@
   <ion-list>
     <ion-item-sliding *ngFor="let item of movieData">
       <ion-item-options side="end">
-        <ion-item-option color="warning" expandable (click)="addToFavorite(item.nome)">
+        <ion-item-option color="warning" expandable (click)="requestFavorite(item.nome)">
           <ion-icon name="star"></ion-icon>
         </ion-item-option>
       </ion-item-options>
@@ -20,11 +20,16 @@
         <ion-label>
           <div class="ion-text-wrap">
             <h1>{{item.nome}}</h1>
-            <p>31/03/2022 (BR)</p>
-            <span>{{getCategoriaString(item.categorias)}}</span>
+            <p>{{item.lancamento}} - {{item.duracao}}</p>
+            <!--{{convertCategoriaString(item.categorias)}}-->
+            <div>
+              <ion-badge color="medium" *ngFor="let categoria of item.categorias">{{categoria}}</ion-badge>
+            </div>
           </div>
         </ion-label>
-        <ion-chip color="success" outline="true"> </ion-chip>
+        <ion-chip color="success" outline="true">
+          35<p>%</p>
+        </ion-chip>
       </ion-item>
     </ion-item-sliding>
   </ion-list>

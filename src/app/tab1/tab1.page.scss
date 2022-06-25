@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
-
-@keyframes growProgressBar {
-  0%, 33% { --pgPercentage: 0; }
-  100% { --pgPercentage: var(--value); }
-}
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
 
 ion-item-options {
   font-family: 'Ubuntu', sans-serif;
@@ -13,7 +9,13 @@ ion-label {
   div {
     width: 80%;
     span {
-      color: gray;
+      color: rgb(255, 255, 255);
+      font-size: .7rem;
+      margin-right: 3px;
+    }
+    ion-badge {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      color: rgb(255, 255, 255);
       font-size: .7rem;
       margin-right: 3px;
     }
@@ -46,13 +48,25 @@ ion-item {
   }
 
   ion-chip {
-    padding-inline: 3px;
+    text-align: center;
+
     width: 3.5rem;
     height: 3.5rem;
     font-weight: bold;
     border-radius: 50%;
+
+    font-family: 'Raleway';
+    font-size: 20px;
+
     ion-label {
       text-align: center;
+    }
+    p {
+      font-family: 'Raleway';
+      font-size: 10px;
+      position: absolute;
+      margin-left: 23px;
+      margin-top: 12px;
     }
   }
 
