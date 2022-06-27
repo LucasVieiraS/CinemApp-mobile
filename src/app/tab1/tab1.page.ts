@@ -33,15 +33,7 @@ export class Tab1Page {
     this.route.navigateByUrl('/movie-data');
   }
 
-  convertCategoriaString(categorias) {
-    let convertedString = '';
-    categorias.forEach(element => {
-      convertedString += element + ', ';
-    });
-    return convertedString.substring(0, convertedString.length - 2);
-  }
-
-  async sendAlert(movieName) {
+  async sendAlert(movieName, element) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       message: `Deseja favoritar <strong>${movieName}</strong>?`,
@@ -51,15 +43,17 @@ export class Tab1Page {
           role: 'cancel',
           cssClass: 'secondary',
           id: 'cancel-button',
-          handler: (blah) => {
-            this.showLowerNotification('Filme removido dos favoritos.');
+          handler: () => {
+            element.name = 'star-outline';
+            this.showLowerNotification('Filme removido dos favoritos.', 'star-outline');
           },
         },
         {
           text: 'Sim',
           id: 'confirm-button',
           handler: () => {
-            this.showLowerNotification('Filme adicionado aos favoritos.');
+            element.name = 'star';
+            this.showLowerNotification('Filme adicionado aos favoritos.', 'star');
           },
         },
       ],
@@ -68,9 +62,9 @@ export class Tab1Page {
     await alert.present();
   }
 
-  async showLowerNotification(sentMessage) {
+  async showLowerNotification(sentMessage, sentIcon) {
     const toast = await this.toastController.create({
-      icon: 'star',
+      icon: sentIcon,
       message: sentMessage,
       position: 'top',
       duration: 2000
@@ -78,7 +72,9 @@ export class Tab1Page {
     toast.present();
   }
 
-  async requestFavorite(movieName) {
-    this.sendAlert(movieName);
+  async requestFavorite(movieName, event) {
+    const element = document.getElementsByClassName(event.target.className[0]);
+    console.log(element);
+    this.sendAlert(movieName, element);
   }
 }

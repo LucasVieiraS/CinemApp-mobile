@@ -8,29 +8,60 @@
   <ion-searchbar showCancelButton="focus" placeholder="Buscar"></ion-searchbar>
   <ion-list>
     <ion-item-sliding *ngFor="let item of movieData">
-      <ion-item-options side="end">
-        <ion-item-option color="warning" expandable (click)="requestFavorite(item.nome)">
-          <ion-icon name="star"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-      <ion-item lines="full" (click)="showMovie(item)">
-        <ion-thumbnail slot="start">
-          <img [src]="item.imagem"/>
-        </ion-thumbnail>
-        <ion-label>
-          <div class="ion-text-wrap">
-            <h1>{{item.nome}}</h1>
-            <p>{{item.lancamento}} - {{item.duracao}}</p>
-            <!--{{convertCategoriaString(item.categorias)}}-->
-            <div>
-              <ion-badge color="medium" *ngFor="let categoria of item.categorias">{{categoria}}</ion-badge>
+      <div *ngIf="movieData">
+        <ion-item-options side="end">
+          <ion-item-option class="options" color="warning" expandable (click)="requestFavorite(item.nome, $event)">
+            <ion-icon name="star-outline"></ion-icon>
+            <!--Mudar para star quando estiver favoritado-->
+          </ion-item-option>
+        </ion-item-options>
+        <ion-item lines="full" (click)="showMovie(item)">
+          <ion-thumbnail slot="start">
+            <img [src]="item.imagem"/>
+          </ion-thumbnail>
+          <ion-label>
+            <div class="ion-text-wrap">
+              <h1>{{item.nome}}</h1>
+              <p>{{item.lancamento}} - {{item.duracao}}</p>
+              <!--{{convertCategoriaString(item.categorias)}}-->
+              <div>
+                <ion-badge color="medium" *ngFor="let categoria of item.categorias" color="darker">{{categoria}}</ion-badge>
+              </div>
             </div>
-          </div>
-        </ion-label>
-        <ion-chip color="success" outline="true">
-          35<p>%</p>
-        </ion-chip>
-      </ion-item>
+          </ion-label>
+          <ion-chip color="success" outline="true">
+            {{item.classificacao}}<p>%</p>
+          </ion-chip>
+        </ion-item>
+      </div>
+    </ion-item-sliding>
+    <ion-item-sliding *ngIf="!movieData">
+      <div>
+        <ion-item-options side="end">
+          <ion-item-option class="options" color="warning" expandable (click)="requestFavorite(item.nome, $event)">
+            <ion-icon name="star-outline" id="favoriteIcon"></ion-icon>
+            <!--Mudar para star quando estiver favoritado-->
+          </ion-item-option>
+        </ion-item-options>
+        <ion-item lines="full" (click)="showMovie(item)">
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-thumbnail>
+          <ion-label>
+            <div class="ion-text-wrap">
+              <ion-skeleton-text animated></ion-skeleton-text>
+              <ion-skeleton-text animated></ion-skeleton-text>
+              <!--{{convertCategoriaString(item.categorias)}}-->
+              <div>
+                <ion-badge color="medium" *ngFor="let categoria of item.categorias">{{categoria}}</ion-badge>
+              </div>
+            </div>
+          </ion-label>
+          <ion-chip color="success" outline="true">
+              <ion-skeleton-text style="height: 100%; width: 100%;"></ion-skeleton-text>
+          </ion-chip>
+        </ion-item>
+      </div>
     </ion-item-sliding>
   </ion-list>
 </ion-content>

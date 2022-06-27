@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+
+ion-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+ion-card {
+
+  ion-card-content {
+    padding: 10px;
+
+    span {
+      color: rgb(255, 255, 255);
+      font-size: .7rem;
+      margin-right: 3px;
+    }
+
+    h1 {
+      color: rgb(255, 255, 255);
+      font-weight: bold;
+      font-size: 1.7rem;
+    }
+
+    p {
+      font-size: .6rem;
+    }
+
+    p + p {
+      color: gray;
+    }
+
+    .badge-holder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+}
+
+.slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.rating {
+  margin-top: 3px;
+  margin-bottom: 9px;
+}
+
+ion-badge {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: rgb(255, 255, 255);
+  font-size: .7rem;
+  margin-right: 5px;
+}
+
+.failed {
+  font-family: 'Raleway';
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  flex-direction: column;
+
+  width: 80%;
+
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  position: absolute;
+}
+
+.failed ion-icon {
+  height: 50px;
+  width: 50px;
+	animation: sadFace .7s ease-in infinite alternate;
+}
+
+@keyframes sadFace {
+  from {
+    transform: rotate(-15deg);
+  }
+
+  to {
+    transform: rotate(15deg);
+  }
+}

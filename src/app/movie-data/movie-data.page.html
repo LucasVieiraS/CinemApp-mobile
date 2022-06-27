@@ -1,9 +1,42 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>movie-data</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-title *ngIf="movie">{{movie.nome}} </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content [fullscreen]="true">
+    <ion-grid>
+      <ion-card *ngIf="movie">
+        <ion-card-header>
+          <img [src]="movie.imagem"/>
+        </ion-card-header>
+        <ion-card-content class="slide" color="darker">
+          <h1>{{movie.nome}}</h1>
+          <p>{{movie.lancamento}} - {{movie.duracao}}</p>
+          <div class="badge-holder" id="starRating" hidden="true">
+            <ion-icon id="star-1" name="star" color="danger"></ion-icon>
+            <ion-icon id="star-2" name="star" color="danger"></ion-icon>
+            <ion-icon id="star-3" name="star" color="danger"></ion-icon>
+            <ion-icon id="star-4" name="star" color="danger"></ion-icon>
+            <ion-icon id="star-5" name="star"></ion-icon>
+          </div>
+          <div class="badge-holder" *ngIf="!carregado">
+            <ion-spinner name="dots"></ion-spinner>
+          </div>
+          <p class="rating">{{rating}}</p>
+          <div class="badge-holder">
+            <ion-badge color="medium" *ngFor="let categoria of movie.categorias" color="darker">{{categoria}}</ion-badge>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-grid>
+    <div *ngIf="!movie" class="failed">
+      <ion-icon color="danger" name="sad-outline"></ion-icon>
+      <p color="danger">
+      Não foi possível carregar seu filme! <br> <strong>Tentando novamente...</strong></p>
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
 </ion-content>
