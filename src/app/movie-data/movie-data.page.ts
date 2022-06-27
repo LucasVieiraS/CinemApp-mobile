@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { DataService } from '../services/data.service';
-import { MovieAPI } from '../models/MovieAPI.model';
+import { DatabaseAPI } from '../models/DatabaseAPI.model';
 
 @Component({
   selector: 'app-movie-data',
@@ -10,9 +10,10 @@ import { MovieAPI } from '../models/MovieAPI.model';
 })
 export class MovieDataPage implements OnInit {
 
-  movie: MovieAPI;
+  movie: DatabaseAPI;
   rating = '0.0';
   carregado = null;
+  genres: string[] = [];
 
   constructor(public dataService: DataService) { }
 
@@ -26,15 +27,15 @@ export class MovieDataPage implements OnInit {
 
   ngOnInit() {
     this.movie = this.dataService.getDados('movie');
+    this.genres = this.dataService.getDados('genres');
     console.log('filme enviado', this.movie);
     if (this.movie) {
-      const newRating = ((this.movie.classificacao / 100) * 5).toString();
-      this.rating = newRating.substring(0, newRating.length - 1);
+      this.rating = this.movie.vote_average.toString();
     }
   }
 
   ionViewDidEnter() {
-    const toNumberRating = Number(this.rating);
+    const toNumberRating = Number(this.rating)/2;
     const starRating = document.getElementById('starRating');
     for (let i = 1; i <= 5; i ++) {
       console.log('star-' + i.toString());
@@ -43,7 +44,7 @@ export class MovieDataPage implements OnInit {
         starElement.setAttribute('name', 'star');
         starElement.setAttribute('color', 'danger');
       } else {
-        if ((i - 5) % 2){
+        if ((i - 5) % 2 && (toNumberRating - i > -1)){
           starElement.setAttribute('name', 'star-half-outline');
           starElement.setAttribute('color', 'danger');
         } else {

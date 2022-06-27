@@ -11,11 +11,13 @@
     <ion-grid>
       <ion-card *ngIf="movie">
         <ion-card-header>
-          <img [src]="movie.imagem"/>
+          <img *ngIf="movie.poster_path"
+          src="https://www.themoviedb.org/t/p/w500/{{movie.poster_path}}"
+          />
         </ion-card-header>
         <ion-card-content class="slide" color="darker">
-          <h1>{{movie.nome}}</h1>
-          <p>{{movie.lancamento}} - {{movie.duracao}}</p>
+          <h1>{{movie.name}}</h1>
+          <p>{{movie.release_date | date: 'shortDate'}} - {{movie.original_language.toUpperCase()}}</p>
           <div class="badge-holder" id="starRating" hidden="true">
             <ion-icon id="star-1" name="star" color="danger"></ion-icon>
             <ion-icon id="star-2" name="star" color="danger"></ion-icon>
@@ -28,7 +30,7 @@
           </div>
           <p class="rating">{{rating}}</p>
           <div class="badge-holder">
-            <ion-badge color="medium" *ngFor="let categoria of movie.categorias" color="darker">{{categoria}}</ion-badge>
+            <ion-badge color="medium" *ngFor="let categoria of movie.genre_ids" color="darker">{{genres[genre_id]}}</ion-badge>
           </div>
         </ion-card-content>
       </ion-card>
@@ -36,7 +38,6 @@
     <div *ngIf="!movie" class="failed">
       <ion-icon color="danger" name="sad-outline"></ion-icon>
       <p color="danger">
-      Não foi possível carregar seu filme! <br> <strong>Tentando novamente...</strong></p>
-      <ion-spinner name="crescent"></ion-spinner>
+      Não foi possível carregar seu filme! <br> <strong>Reinicie a aplicação...</strong></p>
     </div>
 </ion-content>
