@@ -5,10 +5,18 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-searchbar showCancelButton="focus" placeholder="Buscar"></ion-searchbar>
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of movieData">
-      <div *ngIf="movieData">
+  <ion-searchbar (ionChange)="getMovies($event)" showCancelButton="focus" placeholder="Buscar"></ion-searchbar>
+
+  <div *ngIf="movieList && movieList.results.length === 0" class="failed">
+    <ion-icon color="danger" name="videocam-off-outline"></ion-icon>
+    <p color="danger">
+    Não foi possível encontrar seu filme! <br> <strong>Tente outro nome!</strong></p>
+  </div>
+
+  <ion-list *ngIf="movieList">
+
+    <ion-item-sliding *ngFor="let item of movieList.results">
+      <div>
         <ion-item-options side="end">
           <ion-item-option class="options" color="warning" expandable (click)="requestFavorite(item.nome, $event)">
             <ion-icon name="star-outline"></ion-icon>
@@ -17,51 +25,30 @@
         </ion-item-options>
         <ion-item lines="full" (click)="showMovie(item)">
           <ion-thumbnail slot="start">
-            <img [src]="item.imagem"/>
+            <img *ngIf="item.poster_path"
+            src="https://www.themoviedb.org/t/p/w500/{{item.poster_path}}"
+            />
+            <ion-icon *ngIf="!item.poster_path" name="videocam-off"></ion-icon>
           </ion-thumbnail>
           <ion-label>
             <div class="ion-text-wrap">
-              <h1>{{item.nome}}</h1>
-              <p>{{item.lancamento}} - {{item.duracao}}</p>
+              <h1>{{item.title}}</h1>
+              <p>{{item.release_date | date: 'shortDate'}} - {{item.original_language.toUpperCase()}}</p>
               <!--{{convertCategoriaString(item.categorias)}}-->
               <div>
-                <ion-badge color="medium" *ngFor="let categoria of item.categorias" color="darker">{{categoria}}</ion-badge>
+                <ion-badge color="medium" *ngFor="let genre_id of item.genre_ids" color="darker">{{genres[genre_id]}}</ion-badge>
               </div>
             </div>
           </ion-label>
-          <ion-chip color="success" outline="true">
-            {{item.classificacao}}<p>%</p>
+          <ion-chip
+            [color]="item.vote_average < 5 ? 'danger' : ((item.vote_average < 7) ? 'warning' : 'success')"
+            outline="true"
+          >
+            {{item.vote_average*10}}<p>%</p>
           </ion-chip>
         </ion-item>
       </div>
     </ion-item-sliding>
-    <ion-item-sliding *ngIf="!movieData">
-      <div>
-        <ion-item-options side="end">
-          <ion-item-option class="options" color="warning" expandable (click)="requestFavorite(item.nome, $event)">
-            <ion-icon name="star-outline" id="favoriteIcon"></ion-icon>
-            <!--Mudar para star quando estiver favoritado-->
-          </ion-item-option>
-        </ion-item-options>
-        <ion-item lines="full" (click)="showMovie(item)">
-          <ion-thumbnail slot="start">
-            <ion-skeleton-text animated></ion-skeleton-text>
-          </ion-thumbnail>
-          <ion-label>
-            <div class="ion-text-wrap">
-              <ion-skeleton-text animated></ion-skeleton-text>
-              <ion-skeleton-text animated></ion-skeleton-text>
-              <!--{{convertCategoriaString(item.categorias)}}-->
-              <div>
-                <ion-badge color="medium" *ngFor="let categoria of item.categorias">{{categoria}}</ion-badge>
-              </div>
-            </div>
-          </ion-label>
-          <ion-chip color="success" outline="true">
-              <ion-skeleton-text style="height: 100%; width: 100%;"></ion-skeleton-text>
-          </ion-chip>
-        </ion-item>
-      </div>
-    </ion-item-sliding>
+
   </ion-list>
 </ion-content>

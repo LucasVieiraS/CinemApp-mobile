@@ -1,34 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { DataService } from '../services/data.service';
 import { Router } from '@angular/router';
 import { MovieAPI } from '../models/MovieAPI.model';
+import { MovieService } from '../services/movie.service';
+import { MovieList } from '../models/DatabaseAPI.model';
+import { GenreService } from '../services/genre.service';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
 
   movieData: MovieAPI[] = [
-    {
+    /*{
       nome: 'Encanto',
       imagem: 'https://www.themoviedb.org/t/p/w220_and_h330_face/4j0PNHkMr5ax3IA8tjtxcmPU3QT.jpg',
       classificacao: 77,
       categorias: ['Animação', 'Comédia', 'Família', 'Fantasia'],
       lancamento: '31/03/2022 (BR)',
       duracao: '2:23'
-    }
+    }*/
   ];
 
+  movieList: MovieList;
+
+  genres: string[] = [];
+
   constructor(
-    public alertController: AlertController, public toastController: ToastController, public dataService: DataService,
+    public alertController: AlertController,
+    public toastController: ToastController,
+    public dataService: DataService,
+    public movieService: MovieService,
+    public genreService: GenreService,
     public route: Router
   ) { }
 
-  showMovie(movie: MovieAPI) {
+  getMovies(event: any) {
+    const search = event.target.value;
+    if (search != null && search.trim() !== '') {
+      this.movieService.getMovies(search).subscribe(data => {
+        console.log(data);
+        this.movieList = data;
+      });
+    }
+  }
+
+  showMovie(movie: MovieList) {
     this.dataService.setDados('movie', movie);
     this.route.navigateByUrl('/movie-data');
   }
@@ -76,5 +97,14 @@ export class Tab1Page {
     const element = document.getElementsByClassName(event.target.className[0]);
     console.log(element);
     this.sendAlert(movieName, element);
+  }
+
+  ngOnInit() {
+    this.genreService.getGenres().subscribe(data => {
+      console.log('Genders: ', data);
+      data.genres.forEach(genre => {
+        this.genres[genre.id] = genre.name;
+      });
+    });
   }
 }
