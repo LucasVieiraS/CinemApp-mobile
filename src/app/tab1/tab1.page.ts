@@ -54,7 +54,7 @@ export class Tab1Page implements OnInit {
     this.route.navigateByUrl('/movie-data');
   }
 
-  async sendAlert(movieName, element) {
+  async sendAlert(movieName) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       message: `Deseja favoritar <strong>${movieName}</strong>?`,
@@ -65,7 +65,6 @@ export class Tab1Page implements OnInit {
           cssClass: 'secondary',
           id: 'cancel-button',
           handler: () => {
-            element.name = 'star-outline';
             this.showLowerNotification('Filme removido dos favoritos.', 'star-outline');
           },
         },
@@ -73,7 +72,6 @@ export class Tab1Page implements OnInit {
           text: 'Sim',
           id: 'confirm-button',
           handler: () => {
-            element.name = 'star';
             this.showLowerNotification('Filme adicionado aos favoritos.', 'star');
           },
         },
@@ -91,12 +89,6 @@ export class Tab1Page implements OnInit {
       duration: 2000
     });
     toast.present();
-  }
-
-  async requestFavorite(movieName, event) {
-    const element = document.getElementsByClassName(event.target.className[0]);
-    console.log(element);
-    this.sendAlert(movieName, element);
   }
 
   ngOnInit() {

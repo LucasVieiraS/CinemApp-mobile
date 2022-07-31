@@ -18,9 +18,8 @@
     <ion-item-sliding *ngFor="let item of movieList.results">
       <div>
         <ion-item-options side="end">
-          <ion-item-option class="options" color="warning" expandable (click)="requestFavorite(item.nome, $event)">
-            <ion-icon name="star-outline"></ion-icon>
-            <!--Mudar para star quando estiver favoritado-->
+          <ion-item-option class="options" color="warning" expandable (click)="sendAlert(item.title)">
+            <ion-icon name="star"></ion-icon>
           </ion-item-option>
         </ion-item-options>
         <ion-item lines="full" (click)="showMovie(item)">
@@ -34,7 +33,6 @@
             <div class="ion-text-wrap">
               <h1>{{item.title}}</h1>
               <p>{{item.release_date | date: 'shortDate'}} - {{item.original_language.toUpperCase()}}</p>
-              <!--{{convertCategoriaString(item.categorias)}}-->
               <div>
                 <ion-badge color="medium" *ngFor="let genre_id of item.genre_ids" color="darker">{{genres[genre_id]}}</ion-badge>
               </div>
