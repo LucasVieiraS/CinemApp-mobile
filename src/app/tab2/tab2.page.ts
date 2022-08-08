@@ -100,7 +100,7 @@ export class Tab2Page implements OnInit {
       });
       this.dataService.setDados('genres', this.genres);
     });
-    this.movieService.getSeries("Simpsons").subscribe(data => {
+    this.movieService.getSeries("Stranger Things").subscribe(data => {
       console.log(data);
       this.seriesList = data;
     });
