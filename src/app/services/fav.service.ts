@@ -24,7 +24,13 @@ export class FavService {
   removeFav(title) {
     for (let i = 0; i < this.favorites.length; i++) {
       let data = this.favorites[i];
-      if (data.title.toLowerCase() == title.toLowerCase()) {
+      let title2
+      if (data.title != null) {
+        title2 = data.title;
+      } else if (data.name != null) {
+        title2 = data.name;
+      }
+      if (title2.toLowerCase() == title.toLowerCase()) {
         this.favorites.splice(i, 1)
         break
       }

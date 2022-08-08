@@ -22,7 +22,7 @@ export class Tab3Page implements OnInit {
   async sendAlert(movie) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      message: `Deseja favoritar <strong>${movie.title}</strong>?`,
+      message: `Deseja favoritar <strong>${movie.title || movie.name}</strong>?`,
       buttons: [
         {
           text: 'Não',
@@ -34,7 +34,7 @@ export class Tab3Page implements OnInit {
           text: 'Sim',
           id: 'confirm-button',
           handler: () => {
-            this.favService.removeFav(movie.title)
+            this.favService.removeFav(movie.title || movie.name)
             this.showLowerNotification(
               'Filme removido dos favoritos.',
               'star-outline'

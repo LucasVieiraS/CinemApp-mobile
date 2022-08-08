@@ -4,6 +4,7 @@ import { ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { MovieList } from '../models/Movie.model';
+import { SeriesList } from '../models/Series.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +27,9 @@ export class MovieService {
     );
   }
 
-  getSeries(search: string): Observable<MovieList> {
+  getSeries(search: string): Observable<SeriesList> {
     const url = `${this.apiUrl}search/tv${this.key}&language=${this.language}&region=${this.region}&query=${search}`;
-    return this.http.get<MovieList>(url).pipe(
+    return this.http.get<SeriesList>(url).pipe(
       map(return_ => return_),
       catchError(error => this.showError(error))
     );

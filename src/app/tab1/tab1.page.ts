@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { GenreService } from '../services/genre.service';
 import { FavService } from '../services/fav.service';
 import { MovieService } from '../services/movie.service';
@@ -42,7 +42,7 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  showMovie(movie: MovieList) {
+  showMovie(movie: MovieList | any) {
     this.dataService.setDados('movie', movie);
     this.route.navigateByUrl('/movie-data');
   }
@@ -98,8 +98,11 @@ export class Tab1Page implements OnInit {
       data.genres.forEach(genre => {
         this.genres[genre.id] = genre.name;
       });
-
       this.dataService.setDados('genres', this.genres);
+    });
+    this.movieService.getMovies('Batman').subscribe(data => {
+      console.log(data);
+      this.movieList = data;
     });
   }
 }

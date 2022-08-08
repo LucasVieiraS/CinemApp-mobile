@@ -36,7 +36,7 @@
       </ion-card>
     </ion-item-divider>
 
-    <ion-list style="background: transparent" *ngIf="movieList.results">
+    <ion-infinite-scroll style="background: transparent" *ngIf="movieList && movieList.results" (ionInfinite)="getMovies($event)">
       <ion-item-sliding *ngFor="let item of movieList.results">
         <ion-card>
           <ion-item-options side="end">
@@ -50,7 +50,7 @@
             </ion-item-option>
           </ion-item-options>
           <ion-item lines="full">
-            <ion-thumbnail slot="start">
+            <ion-thumbnail slot="start" (click)="showMovie(item)">
               <img
                 *ngIf="item.poster_path"
                 src="https://www.themoviedb.org/t/p/w500/{{item.poster_path}}"
@@ -87,6 +87,6 @@
           </ion-item>
         </ion-card>
       </ion-item-sliding>
-    </ion-list>
+    </ion-infinite-scroll>
   </ion-grid>
 </ion-content>

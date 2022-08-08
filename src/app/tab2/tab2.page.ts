@@ -4,6 +4,10 @@ import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { GenreService } from '../services/genre.service';
 import { FavService } from '../services/fav.service';
+import { MovieService } from '../services/movie.service';
+import { DataService } from '../services/data.service';
+import { SeriesList } from '../models/Series.model';
+import { SeriesAPI } from '../models/SeriesAPI.model';
 
 @Component({
   selector: 'app-tab2',
@@ -11,107 +15,42 @@ import { FavService } from '../services/fav.service';
   styleUrls: ['tab2.page.scss'],
 })
 export class Tab2Page implements OnInit {
-  bckupMovieData = [
-    {
-      title: 'Os Simpsons',
-      poster_path:
-        'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9n4dv0aGRb8Ma15H7jbWsY7Eg0N.jpg',
-      vote_average: 8.0,
-      genre_ids: [18, 14, 16],
-      original_language: 'US',
-      release_date: '2 June 1989',
-    },
-    {
-      title: 'Peaky Blinders',
-      poster_path:
-        'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/i0uajcHH9yogXMfDHpOXexIukG9.jpg',
-      vote_average: 8.6,
-      genre_ids: [12, 14, 16],
-      original_language: 'US',
-      release_date: '2 January 2013',
-    },
-    {
-      title: 'Cavaleiro da Lua',
-      poster_path:
-        'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/tkc7AVyUoG9VEeDvukN0TVqa24C.jpg',
-      vote_average: 8.4,
-      genre_ids: [12, 14, 16],
-      original_language: 'US',
-      release_date: '19 June 2022',
-    },
-    {
-      title: 'The Boys',
-      poster_path:
-        'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/stTEycfG9928HYGEISBFaG1ngjM.jpg',
-      vote_average: 8.5,
-      genre_ids: [12, 14, 16],
-      original_language: 'US',
-      release_date: '16 December 2019',
-    },
-    {
-      title: 'Stranger Things',
-      poster_path:
-        'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/49WJfeN0moxb9IPfGn8AIqMGskD.jpg',
-      vote_average: 8.6,
-      genre_ids: [12, 14, 10749],
-      original_language: 'US',
-      release_date: '23 July 2016',
-    },
-  ];
-  movieData;
 
+  seriesData: SeriesAPI[] = [];
+  seriesList: SeriesList;
   genres: string[] = [];
 
   constructor(
     public alertController: AlertController,
     public toastController: ToastController,
+
+    public dataService: DataService,
+    public movieService: MovieService,
     public genreService: GenreService,
     public favService: FavService,
+
     public route: Router
   ) {}
 
-  getMovies(event: any) {
+  getSeries(event: any) {
     const search = event.target.value;
-    if (search != null) {
-      console.log('-------------------');
-      console.log('Search: ' + search);
-      for (var _i = 0; _i < this.bckupMovieData.length; _i++) {
-        var element = this.bckupMovieData[_i];
-        if (
-          element.title.toUpperCase().includes(search.toUpperCase()) ||
-          search.trim() == ''
-        ) {
-          console.log('matches: ', element.title);
-          let found = false;
-          this.movieData.forEach(function (value) {
-            if (value.title == element.title) {
-              found = true;
-            }
-          });
-          if (found == false) {
-            this.movieData.splice(1, 0, this.bckupMovieData[_i]);
-          }
-        } else {
-          console.log('does not match: ', element.title);
-          console.log(this.movieData[_i]);
-          for (var _e = 0; _e < this.movieData.length; _e++) {
-            if (this.movieData[_e].title == element.title) {
-              this.movieData.splice(_e, 1);
-            }
-          }
-        }
-      }
+    if (search != null && search.trim() !== '') {
+      this.movieService.getSeries(search).subscribe(data => {
+        console.log(data);
+        this.seriesList = data;
+      });
     }
   }
 
-  restoreMovies(event: any) {
-    this.movieData = JSON.parse(JSON.stringify(this.bckupMovieData)) as JSON;
+  showSerie(movie: SeriesList) {
+    this.dataService.setDados('movie', movie);
+    this.route.navigateByUrl('/movie-data');
   }
 
   async sendAlert(movie) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      message: `Deseja favoritar <strong>${movie.title}</strong>?`,
+      message: `Deseja favoritar <strong>${movie.name}</strong>?`,
       buttons: [
         {
           text: 'Não',
@@ -119,7 +58,7 @@ export class Tab2Page implements OnInit {
           cssClass: 'secondary',
           id: 'cancel-button',
           handler: () => {
-            this.favService.removeFav(movie.title);
+            this.favService.removeFav(movie.name);
             this.showLowerNotification(
               'Filme removido dos favoritos.',
               'star-outline'
@@ -154,11 +93,16 @@ export class Tab2Page implements OnInit {
   }
 
   ngOnInit() {
-    this.genreService.getGenres().subscribe((data) => {
-      data.genres.forEach((genre) => {
+    this.genreService.getGenres().subscribe(data => {
+      console.log('Genders: ', data);
+      data.genres.forEach(genre => {
         this.genres[genre.id] = genre.name;
       });
+      this.dataService.setDados('genres', this.genres);
     });
-    this.movieData = JSON.parse(JSON.stringify(this.bckupMovieData)) as JSON;
+    this.movieService.getSeries("Simpsons").subscribe(data => {
+      console.log(data);
+      this.seriesList = data;
+    });
   }
 }

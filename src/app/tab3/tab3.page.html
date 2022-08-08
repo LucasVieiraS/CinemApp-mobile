@@ -26,7 +26,7 @@
       </ion-card>
     </ion-item-divider>
 
-    <ion-list style="background: transparent" *ngIf="favoriteMovies">
+    <ion-list style="background: transparent" *ngIf="favoriteMovies.length > 0 && favoriteMovies">
       <ion-item-sliding *ngFor="let item of favoriteMovies">
         <ion-card>
           <ion-item-options side="end">
@@ -52,9 +52,9 @@
             </ion-thumbnail>
             <ion-label>
               <div class="ion-text-wrap">
-                <h1>{{item.title}}</h1>
+                <h1>{{item.title || item.name}}</h1>
                 <p>
-                  {{item.release_date | date: 'shortDate'}} -
+                  {{(item.release_date || item.first_air_date) | date: 'shortDate'}} -
                   {{item.original_language.toUpperCase()}}
                 </p>
               </div>
