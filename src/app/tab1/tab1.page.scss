@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+
+ion-grid {
+  padding: 0 1rem 0 1rem;
+}
+
+ion-title {
+  ion-icon {
+    color: black;
+    position: relative;
+    top: 0.25rem;
+  }
+}
+
+ion-toolbar {
+  div {
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    ion-title {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.profile {
+  img {
+    position: relative;
+    border-radius: 90%;
+    right: 1rem;
+    scale: 0.9;
+    border: 3px solid rgb(17, 17, 17);
+  }
+}
+
+ion-item-divider {
+  user-select: none;
+  ion-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('https://www.themoviedb.org/t/p/w500_and_h282_face/362Yo4yd1MrU4yNC85EOeY3E1vo.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    ion-label {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      background-color: rgba($color: #000000, $alpha: 0.5);
+      border-radius: 3px;
+      height: 50%;
+      width: 60%;
+    }
+    h1 {
+      font-family: 'Trebuchet MS', sans-serif;
+      color: white;
+    }
+    ion-icon {
+      position: relative;
+      top: 0.1rem;
+      margin-right: 2px;
+    }
+    p {
+      color: white;
+      font-family: 'Raleway';
+      font-size: 13px;
+    }
+  }
+}
+
+ion-label {
+  div {
+    width: 100%;
+    ion-badge {
+      font-family: 'Trebuchet MS', sans-serif;
+      color: rgb(255, 255, 255);
+      font-size: 0.7rem;
+      margin-right: 3px;
+    }
+  }
+}
+
+ion-item {
+  --padding-start: 10px;
+  --inner-padding-end: 10px;
+
+  user-select: none;
+
+  ion-thumbnail {
+    min-height: 5rem;
+    height: 100%;
+    width: 20%;
+    margin-inline-end: 10px;
+
+    img {
+      user-select: none;
+      border-radius: 3px;
+    }
+
+    ion-icon {
+      top: 0.15rem;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 6rem;
+      color: rgb(180, 180, 180);
+    }
+  }
+
+  h1 {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+
+  p {
+    font-size: 0.6rem;
+    margin-bottom: 5px;
+  }
+
+  p + p {
+    color: gray;
+    margin-bottom: 5px;
+  }
+
+  ion-chip {
+    text-align: center;
+
+    width: 3.5rem;
+    height: 3.5rem;
+    font-weight: bold;
+    border-radius: 50%;
+
+    font-family: 'Raleway';
+    font-size: 20px;
+
+    ion-label {
+      text-align: center;
+    }
+    p {
+      font-family: 'Raleway';
+      font-size: 10px;
+      position: absolute;
+      margin-left: 23px;
+      margin-top: 12px;
+    }
+  }
+}
+
+ion-item-sliding {
+  margin-bottom: 5px;
+}
+
+ion-list {
+  margin-bottom: 10px;
+}

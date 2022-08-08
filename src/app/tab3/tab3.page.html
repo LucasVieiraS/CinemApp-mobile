@@ -1,0 +1,84 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="yellowish">
+    <div slot="end">
+      <ion-title>LUCAS</ion-title>
+      <ion-thumbnail class="profile" slot="end">
+        <img
+          src="https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+        />
+      </ion-thumbnail>
+    </div>
+    <ion-title> <ion-icon name="star"></ion-icon> FAVORITOS </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-item-divider class="per-studio-divider">
+      <ion-card>
+        <ion-label>
+          <h1>FAVORITOS</h1>
+          <p>
+            <ion-icon name="star" color="yellowish"></ion-icon> AS MÍDIAS QUE
+            VOCÊ MAIS GOSTA!
+          </p>
+        </ion-label>
+      </ion-card>
+    </ion-item-divider>
+
+    <ion-list style="background: transparent" *ngIf="favoriteMovies">
+      <ion-item-sliding *ngFor="let item of favoriteMovies">
+        <ion-card>
+          <ion-item-options side="end">
+            <ion-item-option
+              class="options"
+              color="danger"
+              expandable
+              (click)="sendAlert(item)"
+            >
+              <ion-icon name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+          <ion-item lines="full">
+            <ion-thumbnail slot="start">
+              <img
+                *ngIf="item.poster_path"
+                src="https://www.themoviedb.org/t/p/w500/{{item.poster_path}}"
+              />
+              <ion-icon
+                *ngIf="!item.poster_path"
+                name="videocam-off"
+              ></ion-icon>
+            </ion-thumbnail>
+            <ion-label>
+              <div class="ion-text-wrap">
+                <h1>{{item.title}}</h1>
+                <p>
+                  {{item.release_date | date: 'shortDate'}} -
+                  {{item.original_language.toUpperCase()}}
+                </p>
+              </div>
+            </ion-label>
+            <ion-chip
+              [color]="item.vote_average < 5 ? 'danger' : ((item.vote_average < 7) ? 'warning' : 'success')"
+              outline="true"
+            >
+              {{item.vote_average*10}}
+              <p>%</p>
+            </ion-chip>
+          </ion-item>
+        </ion-card>
+      </ion-item-sliding>
+    </ion-list>
+
+    <ion-card class="noMediaWarn" *ngIf="favoriteMovies.length <= 0">
+      <ion-item>
+        <ion-label color="danger">Você não favoritou nenhuma mídia!</ion-label>
+      </ion-item>
+      <ion-card-content> 
+      <ion-icon name="film-outline" color="warning"></ion-icon>
+        Que tal ir buscar um filme ou série para favoritar?
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>
