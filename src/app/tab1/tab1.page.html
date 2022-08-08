@@ -14,11 +14,13 @@
 
 <ion-content [fullscreen]="true">
   <ion-grid>
+    <!--(ionCancel)="restoreMovies($event)"-->
+    <!--(ionChange)="getMovies($event)"-->
+
     <ion-searchbar
       showCancelButton="focus"
       placeholder="Buscar"
       (ionChange)="getMovies($event)"
-      (ionCancel)="restoreMovies($event)"
       animated
     ></ion-searchbar>
 
@@ -34,8 +36,8 @@
       </ion-card>
     </ion-item-divider>
 
-    <ion-list style="background: transparent" *ngIf="movieData">
-      <ion-item-sliding *ngFor="let item of movieData">
+    <ion-list style="background: transparent" *ngIf="movieList.results">
+      <ion-item-sliding *ngFor="let item of movieList.results">
         <ion-card>
           <ion-item-options side="end">
             <ion-item-option

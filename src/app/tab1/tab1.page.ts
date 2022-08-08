@@ -4,6 +4,10 @@ import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { GenreService } from '../services/genre.service';
 import { FavService } from '../services/fav.service';
+import { MovieService } from '../services/movie.service';
+import { DataService } from '../services/data.service';
+import { MovieList } from '../models/Movie.model';
+import { MovieAPI } from '../models/MovieAPI.model';
 
 @Component({
   selector: 'app-tab1',
@@ -11,101 +15,36 @@ import { FavService } from '../services/fav.service';
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page implements OnInit {
-  bckupMovieData = [
-    {
-      title: 'Ponyo - Uma Amizade que Veio do Mar',
-      poster_path:
-        'https://www.themoviedb.org/t/p/w220_and_h330_face/cvpsmNWc8nyePJMbyMc9X5lLN6L.jpg',
-      vote_average: 9.2,
-      genre_ids: [12, 14, 16],
-      original_language: 'JP',
-      release_date: '5 May 1993',
-    },
-    {
-      title: 'A Viagem de Chihiro ',
-      poster_path:
-        'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/e7WdOF6j3wB5kFXIEoqGXKmGaTl.jpg',
-      vote_average: 8.5,
-      genre_ids: [12, 14, 16],
-      original_language: 'JP',
-      release_date: '7 July 2001',
-    },
-    {
-      title: 'O Castelo Animado',
-      poster_path:
-        'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/1hTfaEWktMJPxCk5nZNtK7F86C9.jpg',
-      vote_average: 8.4,
-      genre_ids: [12, 14, 16],
-      original_language: 'JP',
-      release_date: '19 November 2004',
-    },
-    {
-      title: 'Meu Amigo Totoro',
-      poster_path:
-        'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/23KKTxDg6rxZVc66bloQQdPSr29.jpg',
-      vote_average: 8.1,
-      genre_ids: [12, 14, 16],
-      original_language: 'JP',
-      release_date: '16 June 1988',
-    },
-    {
-      title: 'Sussurros do Coração',
-      poster_path:
-        'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/5q752lJ1XoRwj6yKVx999avJ8eO.jpg',
-      vote_average: 7.9,
-      genre_ids: [12, 14, 10749],
-      original_language: 'JP',
-      release_date: '15 July 1995',
-    },
-  ];
-  movieData;
 
+  movieData: MovieAPI[] = [];
+  movieList: MovieList;
   genres: string[] = [];
 
   constructor(
     public alertController: AlertController,
     public toastController: ToastController,
+
+    public dataService: DataService,
+    public movieService: MovieService,
     public genreService: GenreService,
     public favService: FavService,
+
     public route: Router
   ) {}
 
   getMovies(event: any) {
     const search = event.target.value;
-    if (search != null) {
-      console.log('-------------------');
-      console.log('Search: ' + search);
-      for (var _i = 0; _i < this.bckupMovieData.length; _i++) {
-        var element = this.bckupMovieData[_i];
-        if (
-          element.title.toUpperCase().includes(search.toUpperCase()) ||
-          search.trim() == ''
-        ) {
-          console.log('matches: ', element.title);
-          let found = false;
-          this.movieData.forEach(function (value) {
-            if (value.title == element.title) {
-              found = true;
-            }
-          });
-          if (found == false) {
-            this.movieData.splice(1, 0, this.bckupMovieData[_i]);
-          }
-        } else {
-          console.log('does not match: ', element.title);
-          console.log(this.movieData[_i]);
-          for (var _e = 0; _e < this.movieData.length; _e++) {
-            if (this.movieData[_e].title == element.title) {
-              this.movieData.splice(_e, 1);
-            }
-          }
-        }
-      }
+    if (search != null && search.trim() !== '') {
+      this.movieService.getMovies(search).subscribe(data => {
+        console.log(data);
+        this.movieList = data;
+      });
     }
   }
 
-  restoreMovies(event: any) {
-    this.movieData = JSON.parse(JSON.stringify(this.bckupMovieData)) as JSON;
+  showMovie(movie: MovieList) {
+    this.dataService.setDados('movie', movie);
+    this.route.navigateByUrl('/movie-data');
   }
 
   async sendAlert(movie) {
@@ -154,11 +93,13 @@ export class Tab1Page implements OnInit {
   }
 
   ngOnInit() {
-    this.genreService.getGenres().subscribe((data) => {
-      data.genres.forEach((genre) => {
+    this.genreService.getGenres().subscribe(data => {
+      console.log('Genders: ', data);
+      data.genres.forEach(genre => {
         this.genres[genre.id] = genre.name;
       });
+
+      this.dataService.setDados('genres', this.genres);
     });
-    this.movieData = JSON.parse(JSON.stringify(this.bckupMovieData)) as JSON;
   }
 }
