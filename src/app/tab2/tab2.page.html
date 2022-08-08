@@ -85,5 +85,15 @@
         </ion-card>
       </ion-item-sliding>
     </ion-list>
+
+    <ion-card class="noMediaWarn" *ngIf="!seriesList || (seriesList && seriesList.results && seriesList.results.length <= 0)">
+    <ion-item>
+      <ion-label color="danger">Falhamos em encontrar essa mídia!</ion-label>
+    </ion-item>
+    <ion-card-content> 
+    <ion-icon name="film-outline" color="warning"></ion-icon>
+      Que tal buscar uma série nova?
+    </ion-card-content>
+  </ion-card>
   </ion-grid>
 </ion-content>

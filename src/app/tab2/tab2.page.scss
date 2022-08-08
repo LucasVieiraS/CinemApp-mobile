@@ -155,3 +155,34 @@ ion-item-sliding {
 ion-list {
   margin-bottom: 10px;
 }
+
+.noMediaWarn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  user-select: none;
+
+  width: 70vw;
+
+  ion-item {
+    ion-label {
+      font-family: 'Trebuchet MS', sans-serif;
+      font-size: 1.25rem;
+    }
+  }
+
+  ion-card-content {
+    position: relative;
+    bottom: .1rem;
+    ion-icon {
+      position: relative;
+      top: .05rem;
+    }
+  }
+}
