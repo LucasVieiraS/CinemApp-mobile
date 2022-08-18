@@ -16,6 +16,8 @@ import { MovieAPI } from '../models/MovieAPI.model';
 })
 export class Tab1Page implements OnInit {
 
+  clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+
   movieData: MovieAPI[] = [];
   movieList: MovieList;
 
@@ -24,6 +26,7 @@ export class Tab1Page implements OnInit {
 
   defaultSearch : string = "Batman";
   pageNumber : number = 1;
+  updatedPage : boolean = false;
 
   constructor(
     public alertController: AlertController,
@@ -42,16 +45,20 @@ export class Tab1Page implements OnInit {
   }
 
   scrollMovies(event : any) {
+    this.updatedPage = false;
     console.log("Scrolling...")
-    this.pageNumber += 1
-
     this.movieService.getMovies(this.defaultSearch, this.pageNumber).subscribe(data => {
       this.movieList = data;
+      if (this.updatedPage == false) {
+        this.updatedPage = true;
+        this.pageNumber += this.clamp(1, 0, this.movieList.total_pages || 1)
+      }
       this.movieList.results.forEach((data) => {
         this.movieList_results.push(data);
       })
       console.log(this.movieList);
     });
+    event.target.complete();
   }
 
   getMovies(event: any) {
