@@ -18,7 +18,12 @@ export class Tab1Page implements OnInit {
 
   movieData: MovieAPI[] = [];
   movieList: MovieList;
+
+  movieList_results: any[] = [];
   genres: string[] = [];
+
+  defaultSearch : string = "Batman";
+  pageNumber : number = 1;
 
   constructor(
     public alertController: AlertController,
@@ -32,12 +37,30 @@ export class Tab1Page implements OnInit {
     public route: Router
   ) {}
 
+  getTotalResults() {
+    return this.movieList.total_pages > 1;
+  }
+
+  scrollMovies(event : any) {
+    console.log("Scrolling...")
+    this.pageNumber += 1
+
+    this.movieService.getMovies(this.defaultSearch, this.pageNumber).subscribe(data => {
+      this.movieList = data;
+      this.movieList.results.forEach((data) => {
+        this.movieList_results.push(data);
+      })
+      console.log(this.movieList);
+    });
+  }
+
   getMovies(event: any) {
     const search = event.target.value;
     if (search != null && search.trim() !== '') {
-      this.movieService.getMovies(search).subscribe(data => {
-        console.log(data);
+      this.defaultSearch = search;
+      this.movieService.getMovies(this.defaultSearch, this.pageNumber).subscribe(data => {
         this.movieList = data;
+        this.movieList_results = this.movieList.results;
       });
     }
   }
@@ -93,16 +116,13 @@ export class Tab1Page implements OnInit {
   }
 
   ngOnInit() {
+    this.scrollMovies(false);
     this.genreService.getGenres().subscribe(data => {
       console.log('Genders: ', data);
       data.genres.forEach(genre => {
         this.genres[genre.id] = genre.name;
       });
       this.dataService.setDados('genres', this.genres);
-    });
-    this.movieService.getMovies('Batman').subscribe(data => {
-      console.log(data);
-      this.movieList = data;
     });
   }
 }

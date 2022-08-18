@@ -19,8 +19,9 @@ export class MovieService {
 
   constructor(private http: HttpClient, public toastController: ToastController) { }
 
-  getMovies(search: string): Observable<MovieList> {
-    const url = `${this.apiUrl}search/movie${this.key}&language=${this.language}&region=${this.region}&query=${search}`;
+  getMovies(search: string, page: number): Observable<MovieList> {
+    page = page || 1;
+    const url = `${this.apiUrl}search/movie${this.key}&language=${this.language}&page=${page}&region=${this.region}&query=${search}`;
     return this.http.get<MovieList>(url).pipe(
       map(return_ => return_),
       catchError(error => this.showError(error))

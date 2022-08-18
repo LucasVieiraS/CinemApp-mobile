@@ -7,7 +7,9 @@
         />
       </ion-thumbnail>
     </div>
-    <ion-title> <ion-icon name="film"></ion-icon> FILMES </ion-title>
+    <ion-title>
+      <ion-icon name="film"></ion-icon> FILMES
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,12 +18,8 @@
     <!--(ionCancel)="restoreMovies($event)"-->
     <!--(ionChange)="getMovies($event)"-->
 
-    <ion-searchbar
-      showCancelButton="focus"
-      placeholder="Buscar"
-      (ionChange)="getMovies($event)"
-      animated
-    ></ion-searchbar>
+    <ion-searchbar showCancelButton="focus" placeholder="Buscar" (ionChange)="getMovies($event)" animated>
+    </ion-searchbar>
 
     <ion-item-divider class="per-studio-divider">
       <ion-card>
@@ -35,68 +33,58 @@
       </ion-card>
     </ion-item-divider>
 
-    <ion-infinite-scroll style="background: transparent" *ngIf="movieList && movieList.results" (ionInfinite)="getMovies($event)">
-      <ion-item-sliding *ngFor="let item of movieList.results">
-        <ion-card>
-          <ion-item-options side="end">
-            <ion-item-option
-              class="options"
-              color="warning"
-              expandable
-              (click)="sendAlert(item)"
-            >
-              <ion-icon name="star"></ion-icon>
-            </ion-item-option>
-          </ion-item-options>
-          <ion-item lines="full">
-            <ion-thumbnail slot="start" (click)="showMovie(item)">
-              <img
+    <ion-item-sliding *ngFor="let item of movieList_results">
+      <ion-card>
+        <ion-item-options side="end">
+          <ion-item-option class="options" color="warning" expandable (click)="sendAlert(item)">
+            <ion-icon name="star"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+        <ion-item lines="full">
+          <ion-thumbnail slot="start" (click)="showMovie(item)">
+            <img
                 *ngIf="item.poster_path"
                 src="https://www.themoviedb.org/t/p/w500/{{item.poster_path}}"
               />
-              <ion-icon
-                *ngIf="!item.poster_path"
-                name="videocam-off"
-              ></ion-icon>
-            </ion-thumbnail>
-            <ion-label>
-              <div class="ion-text-wrap">
-                <h1>{{item.title}}</h1>
-                <p>
-                  {{item.release_date | date: 'shortDate'}} -
-                  {{item.original_language.toUpperCase()}}
-                </p>
-                <div>
-                  <ion-badge
-                    color="medium"
-                    *ngFor="let genre_id of item.genre_ids"
-                    color="darker"
-                    >{{genres[genre_id] || "???"}}</ion-badge
-                  >
-                </div>
+            <ion-icon *ngIf="!item.poster_path" name="videocam-off"></ion-icon>
+          </ion-thumbnail>
+          <ion-label>
+            <div class="ion-text-wrap">
+              <h1>{{item.title}}</h1>
+              <p>
+                {{item.release_date | date: 'shortDate'}} -
+                {{item.original_language.toUpperCase()}}
+              </p>
+              <div>
+                <ion-badge color="medium" *ngFor="let genre_id of item.genre_ids" color="darker">{{genres[genre_id] ||
+                  "???"}}</ion-badge>
               </div>
-            </ion-label>
-            <ion-chip
-              [color]="item.vote_average < 5 ? 'danger' : ((item.vote_average < 7) ? 'warning' : 'success')"
-              outline="true"
-            >
-              {{item.vote_average*10}}
-              <p>%</p>
-            </ion-chip>
-          </ion-item>
-        </ion-card>
-      </ion-item-sliding>
-    </ion-infinite-scroll>
-    
-    <ion-card class="noMediaWarn" *ngIf="!movieList || (movieList && movieList.results && movieList.results.length <= 0)">
-    <ion-item>
-      <ion-label color="danger">Falhamos em encontrar essa mídia!</ion-label>
-    </ion-item>
-    <ion-card-content> 
-    <ion-icon name="film-outline" color="warning"></ion-icon>
-      Que tal buscar um filme novo?
-    </ion-card-content>
-  </ion-card>
-
+            </div>
+          </ion-label>
+          <ion-chip [color]="item.vote_average < 5 ? 'danger' : ((item.vote_average < 7) ? 'warning' : 'success')"
+            outline="true">
+            {{item.vote_average*10}}
+            <p>%</p>
+          </ion-chip>
+        </ion-item>
+      </ion-card>
+    </ion-item-sliding>
+    <ion-card class="noMediaWarn"
+      *ngIf="!movieList || (movieList && movieList_results && movieList_results.length <= 0)">
+      <ion-item>
+        <ion-label color="danger">Falhamos em encontrar essa mídia!</ion-label>
+      </ion-item>
+      <ion-card-content>
+        <ion-icon name="film-outline" color="warning"></ion-icon>
+        Que tal buscar um filme novo?
+      </ion-card-content>
+    </ion-card>
   </ion-grid>
+
+  <ion-infinite-scroll style="background: transparent" *ngIf="movieList && movieList_results"
+    (ionInfinite)="scrollMovies($event)">
+    <ion-infinite-scroll-content *ngIf="getTotalResults()" loadingSpinner="crescent" loadingText="Carregando mais filmes..."
+      style="margin-bottom: 2rem">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
