@@ -1,11 +1,17 @@
-# Movies App **_V2_** 🎞️
-## _Browse through your favorite media, anywhere._
----
-**Movies App Version 2** is a mobile-ready, offline-storage compatible,
-Ionic Angular powered application. 🚀
+# Movies App 🎥 
+Allows movie searching and adding to favorites, connected to **TMDB API**.
 
-- Find your favorite movies, TV Shows and series;
-- Add movies to your favorite;
-- See information about specific media;
------
-StackBlitz: https://stackblitz.com/edit/moviesappv2 ⚡
+![Ionic](https://img.shields.io/badge/Ionic-%233880FF.svg?style=for-the-badge&logo=Ionic&logoColor=white)
+![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+
+## Installing dependencies
+- To install run:
+```pwsh
+npm i
+```
+
+## Running
+- Run using:
+```pwsh
+ionic serve
+```
