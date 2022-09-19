@@ -2,6 +2,7 @@
   "name": "xorilklal.github",
   "version": "0.0.0",
   "private": true,
+  "homepage": "http://lucasvieiras.github.io/movies-mobile-app",
   "dependencies": {
     "@angular/animations": "14.1.0",
     "@angular/common": "14.1.0",
@@ -17,6 +18,8 @@
     "@capacitor/keyboard": "4.0.0",
     "@capacitor/status-bar": "4.0.0",
     "@ionic/angular": "6.2.0",
+    "@ionic/angular-toolkit": "^4.0.0",
+    "@ionic/cordova-builders": "^7.0.0",
     "@types/jasmine": "3.6.11",
     "@types/jasminewd2": "2.0.10",
     "@types/node": "12.20.55",
@@ -31,7 +34,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1100.4",
@@ -39,7 +44,9 @@
     "@angular/compiler-cli": "~11.0.4",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "angular-cli-ghpages": "^1.0.3",
     "codelyzer": "^6.0.0",
+    "gh-pages": "^4.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.1.0",
