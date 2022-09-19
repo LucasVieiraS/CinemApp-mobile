@@ -2,7 +2,7 @@
   "name": "xorilklal.github",
   "version": "0.0.0",
   "private": true,
-  "homepage": "http://lucasvieiras.github.io/movies-mobile-app",
+  "homepage": "http://lucasvieiras.github.io/movies-mobile-app/src/index.html",
   "dependencies": {
     "@angular/animations": "14.1.0",
     "@angular/common": "14.1.0",
